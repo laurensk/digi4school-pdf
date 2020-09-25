@@ -1,0 +1,27 @@
+{
+  "name": "d4s-downloader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@types/pdfkit": "^0.10.6",
+    "@types/request": "^2.48.5",
+    "beautiful-dom": "^1.0.8",
+    "install": "^0.13.0",
+    "npm": "^6.14.8",
+    "pdfkit": "^0.11.0",
+    "request": "^2.88.2",
+    "svg-to-pdfkit": "^0.1.8",
+    "tough-cookie": "^4.0.0"
+  }
+}
