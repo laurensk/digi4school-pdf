@@ -48,6 +48,8 @@ var d4spdf;
 })();
 ```
 
+Note: For some books, you need to run this code twice to get the result.
+
 3. Copy the output of the script.
 4. Create a file called `.env` in the root directory of the project.
 5. Paste the previously copied text in this file, save and close it.
@@ -64,10 +66,12 @@ var d4spdf;
 ### Manual Download
 
 1. Create a file called `.env` in the root directory.
-2. Create the following 4 keys in the `.env`-file:
+2. Create the following 9 keys in the `.env`-file:
 
 ```
 BOOK_ID=
+BOOK_INDEX=
+BOOK_NAME=
 BOOK_PAGES=
 BOOK_PDFSIZE_W=
 BOOK_PDFSIZE_H=
@@ -76,14 +80,13 @@ COOKIE_DIGI4B=
 COOKIE_DIGI4S=
 ```
 
-If your book is in a subfolder, you may add `BOOK_INDEX` as set it to the index of your book (starting from 1).
-The key `BOOK_NAME` is optional - this name will be used to generate the PDF-file.
-
 1. Go to D4S, log-in and open the book you want to download.
 2. In the URL bar, you can find the current book id, copy and paste it in the `.env`-file as `BOOK_ID`.
-3. Click on the fast-forward button of the book-viewer and copy-paste the count of pages in the `.env`-file as `BOOK_PAGES`.
-4. If the book doesn't seem to use the A4 format, you can specify `BOOK_PDFSIZE_W` and `BOOK_PDFSIZE_H` for each page.
-5. Open the cookies tab of your browsers debug window and copy the values of the following cookies into the `.env` file:
+3. If your D4S package has more than one book, you need to specify the book index (starting from 1) as `BOOK_INDEX`.
+4. Take the HTML meta information for the title tag and copy-paste it into the `.env`-file as `BOOK_NAME`.
+5. Click on the fast-forward button of the book-viewer and copy-paste the count of pages in the `.env`-file as `BOOK_PAGES`.
+6. Go to Inspect Element and find the width and height of the pdf-viewer and copy-paste it into the `.env`-file as `BOOK_PDFSIZE_W` and `BOOK_PDFSIZE_H`.
+7. Open the cookies tab of your browsers debug window and copy the values of the following cookies into the `.env` file:
 
    ```
    Value of 'ad_session_id' as 'COOKIE_SESSION'
@@ -91,7 +94,7 @@ The key `BOOK_NAME` is optional - this name will be used to generate the PDF-fil
    Value of 'digi4s' as 'COOKIE_DIGI4S'
    ```
 
-6. Done!
+8. Done!
 
 ## Start Downloading
 
