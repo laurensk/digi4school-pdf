@@ -1,6 +1,6 @@
 export class D4SLog {
   static welcome() {
-    console.log("\nWelcome to D4S-Downloader!\n");
+    console.log("\nWelcome to digi4school-pdf!\n");
   }
 
   static invalidProperties() {
