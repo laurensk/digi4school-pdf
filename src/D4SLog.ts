@@ -28,7 +28,7 @@ export class D4SLog {
   }
 
   static mergingPdfs() {
-    console.log("\nMerging PDF's...");
+    console.log("\nMerging PDF-files...");
   }
 
   static mergingPdf(pdf: string) {

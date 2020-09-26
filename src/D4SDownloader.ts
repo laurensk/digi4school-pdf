@@ -179,10 +179,11 @@ export class D4SDownlodaer {
     const pdfFileName: string = this.bookSettings.bookName ? this.bookSettings.bookName + ".pdf" : "book.pdf";
     const pdtFilePath: string = "book/" + pdfFileName;
 
+    this.dwlHandler.pdfMergeNames.forEach((pdf) => {
+      D4SLog.mergingPdf(pdf);
+    });
+
     merge(this.dwlHandler.pdfMergeNames, pdtFilePath, (err) => {
-      this.dwlHandler.pdfMergeNames.forEach((pdf) => {
-        D4SLog.mergingPdf(pdf);
-      });
       if (err) console.log(err);
       this.clearProject();
     });
