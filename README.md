@@ -28,6 +28,7 @@ var d4spdf;
   data.name = document.title;
   var paths = window.location.pathname.split("/");
   data.id = paths[2];
+  data.index = paths[3] || "";
   document.getElementById("btnLast").click();
   setTimeout(() => {
     data.pages = location.search.split("page=")[1];
@@ -35,6 +36,7 @@ var d4spdf;
     data.pdfsizeH = document.getElementById("jpedal").children[1].children[0].getAttribute("height");
     console.log(`
     BOOK_ID=${data.id}
+    BOOK_INDEX=${data.index}
     BOOK_NAME=${data.name}
     BOOK_PAGES=${data.pages}
     BOOK_PDFSIZE_W=${data.pdfsizeW}
@@ -74,6 +76,7 @@ COOKIE_DIGI4B=
 COOKIE_DIGI4S=
 ```
 
+If your book is in a subfolder, you may add `BOOK_INDEX` as set it to the index of your book (starting from 1).
 The key `BOOK_NAME` is optional - this name will be used to generate the PDF-file.
 
 1. Go to D4S, log-in and open the book you want to download.
