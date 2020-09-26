@@ -1,7 +1,7 @@
-# D4S-Downloader
+# digi4school-pdf
 
-Welcome to D4S-Downloader!
-This script let's you download your books from D4S.
+Welcome to digi4school-pdf!
+This script let's you download your books from digi4school.
 
 ## Requirements
 
