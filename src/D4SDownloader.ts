@@ -33,16 +33,31 @@ export class D4SDownlodaer {
 
   dwlPages(checked: boolean) {
     D4SLog.downloadPage(this.dwlHandler.page);
+    let dwlUrl: string;
+    if (this.bookSettings.bookIndex) {
+      dwlUrl =
+        "https://a.digi4school.at/ebook/" +
+        this.bookSettings.bookId +
+        "/" +
+        this.bookSettings.bookIndex +
+        "/" +
+        this.dwlHandler.page +
+        "/" +
+        this.dwlHandler.page +
+        ".svg";
+    } else {
+      dwlUrl =
+        "https://a.digi4school.at/ebook/" +
+        this.bookSettings.bookId +
+        "/" +
+        this.dwlHandler.page +
+        "/" +
+        this.dwlHandler.page +
+        ".svg";
+    }
     request(
       {
-        url:
-          "https://a.digi4school.at/ebook/" +
-          this.bookSettings.bookId +
-          "/" +
-          this.dwlHandler.page +
-          "/" +
-          this.dwlHandler.page +
-          ".svg",
+        url: dwlUrl,
         method: "GET",
         headers: {
           Cookie:
@@ -74,7 +89,20 @@ export class D4SDownlodaer {
     let imageNodes = svg.window.document.getElementsByTagName("image");
     for (var i = 0; i < imageNodes.length; i++) {
       const ogHref: string = imageNodes.item(i).getAttribute("xlink:href");
-      const imageUrl: string = "https://a.digi4school.at/ebook/" + this.bookSettings.bookId + "/" + page + "/" + ogHref;
+      let imageUrl: string;
+      if (this.bookSettings.bookIndex) {
+        imageUrl =
+          "https://a.digi4school.at/ebook/" +
+          this.bookSettings.bookId +
+          "/" +
+          this.bookSettings.bookIndex +
+          "/" +
+          page +
+          "/" +
+          ogHref;
+      } else {
+        imageUrl = "https://a.digi4school.at/ebook/" + this.bookSettings.bookId + "/" + page + "/" + ogHref;
+      }
       const imageFileSystemPath: string = "book/book_images/" + this.bookSettings.bookId + "/" + page + "/" + ogHref;
 
       D4SLog.downloadImage(ogHref);
