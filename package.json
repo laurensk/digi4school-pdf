@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js"
+    "start": "tsc && node dist/D4SApp.js"
   },
   "keywords": [],
   "author": "",
@@ -14,14 +14,16 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
+    "@types/jsdom": "^16.2.4",
     "@types/pdfkit": "^0.10.6",
     "@types/request": "^2.48.5",
+    "axios": "^0.20.0",
     "beautiful-dom": "^1.0.8",
     "install": "^0.13.0",
+    "jsdom": "^16.4.0",
     "npm": "^6.14.8",
     "pdfkit": "^0.11.0",
     "request": "^2.88.2",
-    "svg-to-pdfkit": "^0.1.8",
-    "tough-cookie": "^4.0.0"
+    "svg-to-pdfkit": "^0.1.8"
   }
 }
