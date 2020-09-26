@@ -22,13 +22,42 @@ This script let's you download your books from digi4school.
 2. Open the JavaScript console of your browser and run the following code:
 
 ```
-console.log('hi');
+var d4spdf;
+(d4spdf = function () {
+    var data = {}
+    data.name = document.title;
+    var paths = window.location.pathname.split('/');
+    data.id = paths[2];
+    document.getElementById("btnLast").click();
+    setTimeout(() => {
+        data.pages = location.search.split('page=')[1];
+        data.pdfsizeW = document.getElementById('jpedal').children[1].children[0].getAttribute('width');
+        data.pdfsizeH = document.getElementById('jpedal').children[1].children[0].getAttribute('height');
+        console.log(`
+    BOOK_ID=${data.id}
+    BOOK_NAME=${data.name}
+    BOOK_PAGES=${data.pages}
+    BOOK_PDFSIZE_W=${data.pdfsizeW}
+    BOOK_PDFSIZE_H=${data.pdfsizeH}
+    COOKIE_SESSION=copy-past-manually
+    COOKIE_DIGI4B=copy-past-manually
+    COOKIE_DIGI4S=copy-past-manually`);
+    }, 100);
+})();
 ```
 
 3. Copy the output of the script.
 4. Create a file called `.env` in the root directory of the project.
 5. Paste the previously copied text in this file, save and close it.
-6. Done! Move on to 'Start Downloading' to download your book.
+6. Open the cookies tab of your browsers debug window and copy the values of the following cookies into the `.env` file:
+
+   ```
+   Value of 'ad_session_id' as 'COOKIE_SESSION'
+   Value of 'digi4b' as 'COOKIE_DIGI4B'
+   Value of 'digi4s' as 'COOKIE_DIGI4S'
+   ```
+
+7. Done! Move on to 'Start Downloading' to download your book.
 
 ### Manual Download
 
