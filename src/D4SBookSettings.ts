@@ -1,13 +1,15 @@
 import "./D4SEnv";
 
-export class BookSettings {
+export class D4SBookSettings {
   bookId: number;
+  bookName?: string;
   bookLastPage: number;
   bookSize: number[];
   cookies: string[];
 
   constructor() {
     this.bookId = Number(process.env.BOOK_ID);
+    this.bookName = process.env.BOOK_NAME || null;
     this.bookLastPage = Number(process.env.BOOK_PAGES);
     this.bookSize = [Number(process.env.BOOK_PDFSIZE_W) || 595.28, Number(process.env.BOOK_PDFSIZE_H) || 841.89];
     this.cookies = [
