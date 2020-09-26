@@ -159,7 +159,9 @@ export class D4SDownlodaer {
       let svg = svgs[i].window.document.getElementsByTagName("svg")[0];
 
       svg.setAttribute("viewBox", `0 0 ${this.bookSettings.bookSize[0]} ${this.bookSettings.bookSize[1]}`);
-      SVGtoPDF(doc, svg.outerHTML, 0, 0);
+      try {
+        SVGtoPDF(doc, svg.outerHTML, 0, 0);
+      } catch {}
 
       if (i + 1 != svgs.length) doc.addPage();
     }
