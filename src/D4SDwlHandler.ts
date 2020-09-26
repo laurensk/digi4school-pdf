@@ -2,5 +2,6 @@ import { JSDOM } from "jsdom";
 
 export class D4SDwlHandler {
   dwlSvgs: JSDOM[] = [];
-  page = 1;
+  page: number = 1;
+  pdfMergeNames: string[] = [];
 }
