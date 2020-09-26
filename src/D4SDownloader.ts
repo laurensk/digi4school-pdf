@@ -14,8 +14,15 @@ export class D4SDownlodaer {
   D4SDwlHandler: D4SDwlHandler = new D4SDwlHandler();
 
   download() {
-    console.log(this.D4SDwlHandler.page);
-    if (this.BookSettings.bookId.toString().length <= 3 || Object.keys(this.BookSettings.cookies).length < 1) {
+    D4SLog.welcome();
+    if (
+      this.BookSettings.bookId.toString().length <= 3 ||
+      Object.keys(this.BookSettings.cookies).length < 1 ||
+      this.BookSettings.bookLastPage <= 0 ||
+      this.BookSettings.cookies[0].length < 20 ||
+      this.BookSettings.cookies[1].length < 20 ||
+      this.BookSettings.cookies[2].length < 20
+    ) {
       D4SLog.invalidProperties();
     } else {
       this.dwlFsSetup();

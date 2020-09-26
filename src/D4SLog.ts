@@ -1,6 +1,10 @@
 export class D4SLog {
+  static welcome() {
+    console.log("\nWelcome to D4S-Downloader!\n");
+  }
+
   static invalidProperties() {
-    console.log("Please specify valid book number and cookies.");
+    console.log("Please specify valid book properties and cookies.\n");
   }
 
   static error() {

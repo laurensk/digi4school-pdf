@@ -1,6 +1,6 @@
 {
   "name": "d4s-downloader",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "",
   "main": "dist/app.js",
   "scripts": {
@@ -19,6 +19,7 @@
     "@types/request": "^2.48.5",
     "axios": "^0.20.0",
     "beautiful-dom": "^1.0.8",
+    "dotenv": "^8.2.0",
     "install": "^0.13.0",
     "jsdom": "^16.4.0",
     "npm": "^6.14.8",

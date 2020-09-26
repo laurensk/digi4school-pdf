@@ -1,10 +1,19 @@
+import "./D4SEnv";
+
 export class BookSettings {
-  bookId: number = 2362;
-  bookLastPage: number = 15; // 340
-  bookSize: number[] = [625, 850]; // default: [595.28, 841.89] (A4)
-  cookies: string[] = [
-    "ad_session_id=1869186931%2c0%2c0%2c1601117706%20{907%201601118906%206F0562FC47A56E2A02D7C2CA5B72DD1CAD66D588};",
-    "digi4b=1869186932%2c2362%2c105o53xfy6fz%2c78233%20{950%201601204106%20C744479C7B5EC81E374526D645D5D71162B151D6};",
-    "digi4s=78233%2c1601024944%20{170%200%20E0433081BCB8CDF28ED1B481FC15FB2A85E7487C};",
-  ];
+  bookId: number;
+  bookLastPage: number;
+  bookSize: number[];
+  cookies: string[];
+
+  constructor() {
+    this.bookId = Number(process.env.BOOK_ID);
+    this.bookLastPage = Number(process.env.BOOK_PAGES);
+    this.bookSize = [Number(process.env.BOOK_PDFSIZE_W), Number(process.env.BOOK_PDFSIZE_H)];
+    this.cookies = [
+      `ad_session_id=${process.env.COOKIE_SESSION};`,
+      `digi4b=${process.env.COOKIE_DIGI4B};`,
+      `digi4s=${process.env.COOKIE_DIGI4S};`,
+    ];
+  }
 }
