@@ -1,14 +1,36 @@
 # D4S-Downloader
 
 Welcome to D4S-Downloader!
+This script let's you download your books from D4S.
+
+## Requirements
+
+1. [Node.JS](https://nodejs.org/en/) (test with `node --version`)
+2. [NPM](https://nodejs.org/en/) (test with `npm --version`)
+3. [Java 8+](https://www.java.com/en/download/) (test with `java --version`)
 
 ## Installation
 
-1. Make sure you have Node.JS and NPM installed.
-2. Clone this repository using HTTPS or Git.
-3. Run `npm install` in the root directory of the project.
+1. Clone this repository using HTTPS or Git.
+2. Run `npm install` in the root directory of the project.
 
 ## Usage
+
+### Automatic Download (recommended)
+
+1. Go to D4S, log-in and open the book you want to download.
+2. Open the JavaScript console of your browser and run the following code:
+
+```
+console.log('hi');
+```
+
+3. Copy the output of the script.
+4. Create a file called `.env` in the root directory of the project.
+5. Paste the previously copied text in this file, save and close it.
+6. Done! Move on to 'Start Downloading' to download your book.
+
+### Manual Download
 
 1. Create a file called `.env` in the root directory.
 2. Create the following 4 keys in the `.env`-file:
@@ -22,6 +44,8 @@ COOKIE_SESSION=
 COOKIE_DIGI4B=
 COOKIE_DIGI4S=
 ```
+
+The key `BOOK_NAME` is optional - this name will be used to generate the PDF-file.
 
 1. Go to D4S, log-in and open the book you want to download.
 2. In the URL bar, you can find the current book id, copy and paste it in the `.env`-file as `BOOK_ID`.
