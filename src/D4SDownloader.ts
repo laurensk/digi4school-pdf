@@ -17,8 +17,7 @@ export class D4SDownlodaer {
   download() {
     D4SLog.welcome();
     if (
-      this.bookSettings.bookId.toString().length <= 3 ||
-      Object.keys(this.bookSettings.cookies).length < 1 ||
+      this.bookSettings.bookId.toString().length < 1 ||
       this.bookSettings.bookLastPage <= 0 ||
       this.bookSettings.cookies[0].length < 20 ||
       this.bookSettings.cookies[1].length < 20 ||
