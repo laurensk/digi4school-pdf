@@ -21,19 +21,19 @@ This script let's you download your books from digi4school.
 1. Go to D4S, log-in and open the book you want to download.
 2. Open the JavaScript console of your browser and run the following code:
 
-```
+```javascript
 var d4spdf;
 (d4spdf = function () {
-    var data = {}
-    data.name = document.title;
-    var paths = window.location.pathname.split('/');
-    data.id = paths[2];
-    document.getElementById("btnLast").click();
-    setTimeout(() => {
-        data.pages = location.search.split('page=')[1];
-        data.pdfsizeW = document.getElementById('jpedal').children[1].children[0].getAttribute('width');
-        data.pdfsizeH = document.getElementById('jpedal').children[1].children[0].getAttribute('height');
-        console.log(`
+  var data = {};
+  data.name = document.title;
+  var paths = window.location.pathname.split("/");
+  data.id = paths[2];
+  document.getElementById("btnLast").click();
+  setTimeout(() => {
+    data.pages = location.search.split("page=")[1];
+    data.pdfsizeW = document.getElementById("jpedal").children[1].children[0].getAttribute("width");
+    data.pdfsizeH = document.getElementById("jpedal").children[1].children[0].getAttribute("height");
+    console.log(`
     BOOK_ID=${data.id}
     BOOK_NAME=${data.name}
     BOOK_PAGES=${data.pages}
@@ -42,7 +42,7 @@ var d4spdf;
     COOKIE_SESSION=copy-past-manually
     COOKIE_DIGI4B=copy-past-manually
     COOKIE_DIGI4S=copy-past-manually`);
-    }, 100);
+  }, 100);
 })();
 ```
 
