@@ -19,15 +19,31 @@ export class D4SLog {
     console.log("     Downloading image " + imageHref + "...");
   }
 
-  static pageDownloadDone() {
-    console.log("\nDownload finished. Generating PDF...\n");
+  static startGeneratingPages(startPage: number, endPage: number) {
+    console.log(`\nGenerating page ${startPage} - ${endPage}...`);
   }
 
-  static appendingPage(page: number) {
-    console.log("Appending page " + page + "...");
+  static generatingPage(page: number) {
+    console.log("     Generating page " + page + "...");
   }
 
-  static downloadDone() {
-    console.log("\nDone! Enjoy your book!\n");
+  static mergingPdfs() {
+    console.log("\nMerging PDF's...");
+  }
+
+  static mergingPdf(pdf: string) {
+    console.log("     Merging PDF " + pdf + "...");
+  }
+
+  static cleaningProject() {
+    console.log("\nCleaning project...");
+  }
+
+  static cleaningDir(dir: string) {
+    console.log("     Cleaning  " + dir + "...");
+  }
+
+  static downloadDone(fileName: string) {
+    console.log(`\nDone! Saved as: \"${fileName}\"\nEnjoy your book!\n`);
   }
 }
