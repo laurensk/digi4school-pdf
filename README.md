@@ -18,7 +18,7 @@ This script let's you download your books from digi4school.
 
 ### Automatic Download (recommended)
 
-1. Go to D4S, log-in and open the book you want to download.
+1. Go to digi4school, log-in and open the book you want to download.
 2. Open the JavaScript console of your browser and run the following code:
 
 ```javascript
@@ -80,9 +80,9 @@ COOKIE_DIGI4B=
 COOKIE_DIGI4S=
 ```
 
-1. Go to D4S, log-in and open the book you want to download.
+1. Go to digi4school, log-in and open the book you want to download.
 2. In the URL bar, you can find the current book id, copy and paste it in the `.env`-file as `BOOK_ID`.
-3. If your D4S package has more than one book, you need to specify the book index (starting from 1) as `BOOK_INDEX`.
+3. If your digi4school package has more than one book, you need to specify the book index (starting from 1) as `BOOK_INDEX`.
 4. Take the HTML meta information for the title tag and copy-paste it into the `.env`-file as `BOOK_NAME`.
 5. Click on the fast-forward button of the book-viewer and copy-paste the count of pages in the `.env`-file as `BOOK_PAGES`.
 6. Go to Inspect Element and find the width and height of the pdf-viewer and copy-paste it into the `.env`-file as `BOOK_PDFSIZE_W` and `BOOK_PDFSIZE_H`.
