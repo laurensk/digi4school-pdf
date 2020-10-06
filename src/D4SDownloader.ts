@@ -33,17 +33,28 @@ export class D4SDownlodaer {
   dwlPages(checked: boolean) {
     D4SLog.downloadPage(this.dwlHandler.page);
     let dwlUrl: string;
-    if (this.bookSettings.bookIndex.length != 0 || this.bookSettings.bookIndex != undefined) {
-      dwlUrl =
-        "https://a.digi4school.at/ebook/" +
-        this.bookSettings.bookId +
-        "/" +
-        this.bookSettings.bookIndex +
-        "/" +
-        this.dwlHandler.page +
-        "/" +
-        this.dwlHandler.page +
-        ".svg";
+    if (this.bookSettings.bookIndex) {
+      if (this.bookSettings.bookIndex.length != 0) {
+        dwlUrl =
+          "https://a.digi4school.at/ebook/" +
+          this.bookSettings.bookId +
+          "/" +
+          this.bookSettings.bookIndex +
+          "/" +
+          this.dwlHandler.page +
+          "/" +
+          this.dwlHandler.page +
+          ".svg";
+      } else {
+        dwlUrl =
+          "https://a.digi4school.at/ebook/" +
+          this.bookSettings.bookId +
+          "/" +
+          this.dwlHandler.page +
+          "/" +
+          this.dwlHandler.page +
+          ".svg";
+      }
     } else {
       dwlUrl =
         "https://a.digi4school.at/ebook/" +
