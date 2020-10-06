@@ -41,9 +41,9 @@ var d4spdf;
     BOOK_PAGES=${data.pages}
     BOOK_PDFSIZE_W=${data.pdfsizeW}
     BOOK_PDFSIZE_H=${data.pdfsizeH}
-    COOKIE_SESSION=copy-past-manually
-    COOKIE_DIGI4B=copy-past-manually
-    COOKIE_DIGI4S=copy-past-manually`);
+    COOKIE_SESSION=copy-paste-manually
+    COOKIE_DIGI4B=copy-paste-manually
+    COOKIE_DIGI4S=copy-paste-manually`);
   }, 100);
 })();
 ```
