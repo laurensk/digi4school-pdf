@@ -5,9 +5,8 @@ This script lets you download your books from digi4school.
 
 ## Requirements
 
-1. [Node.JS](https://nodejs.org/en/) (test with `node --version`)
-2. [NPM](https://nodejs.org/en/) (test with `npm --version`)
-3. [Java 8+](https://www.java.com/en/download/) (test with `java --version`)
+1. [Node.JS & NPM](https://nodejs.org/en/) (test with `node --version` and `npm --version`)
+2. [Java 8+](https://www.java.com/en/download/) (test with `java --version`)
 
 ## Installation
 
