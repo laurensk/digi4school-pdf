@@ -4,7 +4,7 @@ export class D4SLog {
   }
 
   static invalidProperties() {
-    console.log("Please specify valid book properties and cookies.\n");
+    console.log("Please specify valid login and book URL data.\n");
   }
 
   static error() {
