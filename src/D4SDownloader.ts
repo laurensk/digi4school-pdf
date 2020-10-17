@@ -9,37 +9,80 @@ import { D4SLog } from "./D4SLog";
 import { D4SDwlHandler } from "./D4SDwlHandler";
 import { D4SBookSettings } from "./D4SBookSettings";
 import merge from "easy-pdf-merge";
+import { D4SBookProperties } from "./D4SBookProperties";
+import readline from "readline";
+import { D4SAuthHelper } from "./D4SAuthHelper";
 
 export class D4SDownlodaer {
-  bookSettings: D4SBookSettings = new D4SBookSettings();
+  bookSettings: D4SBookSettings;
   dwlHandler: D4SDwlHandler = new D4SDwlHandler();
 
-  download() {
+  async startDownload() {
     D4SLog.welcome();
-    if (
-      this.bookSettings.bookId.toString().length < 1 ||
-      this.bookSettings.bookLastPage <= 0 ||
-      this.bookSettings.cookies[0].length < 20 ||
-      this.bookSettings.cookies[1].length < 20 ||
-      this.bookSettings.cookies[2].length < 20
-    ) {
-      D4SLog.invalidProperties();
-    } else {
-      this.dwlFsSetup();
-      this.dwlPages(false);
-    }
+
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question("Paste the URL of your book: ", (bookUrl) => {
+      rl.question("Username/Email: ", (email) => {
+        rl.question("Password: ", (password) => {
+          rl.write("\n");
+          this.bookSettings = new D4SBookSettings(bookUrl, email, password);
+          rl.close();
+          this.download();
+        });
+      });
+    });
   }
+
+  async download() {
+    if (
+      this.bookSettings.bookUrl.length < 30 ||
+      this.bookSettings.email.length <= 0 ||
+      this.bookSettings.password.length <= 0
+    ) {
+      return D4SLog.invalidProperties();
+    }
+
+    D4SAuthHelper.getCookies(
+      this.bookSettings.email,
+      this.bookSettings.password,
+      this.bookSettings.bookUrl,
+      (cookies) => {
+        if (!cookies) return D4SLog.invalidProperties();
+        this.dwlHandler.cookies = cookies;
+
+        D4SBookProperties.getBookProperties(
+          this.dwlHandler.cookies,
+          this.bookSettings.bookUrl,
+          (bookId: string, bookIndex: string, bookSize: number[], bookName: string) => {
+            this.dwlHandler.bookId = bookId;
+            this.dwlHandler.bookIndex = bookIndex;
+            this.dwlHandler.bookSize = bookSize;
+            this.dwlHandler.bookName = bookName;
+
+            this.dwlFsSetup();
+            this.dwlPages(false);
+          }
+        );
+      }
+    );
+  }
+
+  setCookies(cokkies: string[]) {}
 
   dwlPages(checked: boolean) {
     D4SLog.downloadPage(this.dwlHandler.page);
     let dwlUrl: string;
-    if (this.bookSettings.bookIndex) {
-      if (this.bookSettings.bookIndex.length != 0) {
+    if (this.dwlHandler.bookIndex) {
+      if (this.dwlHandler.bookIndex.length != 0) {
         dwlUrl =
           "https://a.digi4school.at/ebook/" +
-          this.bookSettings.bookId +
+          this.dwlHandler.bookId +
           "/" +
-          this.bookSettings.bookIndex +
+          this.dwlHandler.bookIndex +
           "/" +
           this.dwlHandler.page +
           "/" +
@@ -48,7 +91,7 @@ export class D4SDownlodaer {
       } else {
         dwlUrl =
           "https://a.digi4school.at/ebook/" +
-          this.bookSettings.bookId +
+          this.dwlHandler.bookId +
           "/" +
           this.dwlHandler.page +
           "/" +
@@ -58,7 +101,7 @@ export class D4SDownlodaer {
     } else {
       dwlUrl =
         "https://a.digi4school.at/ebook/" +
-        this.bookSettings.bookId +
+        this.dwlHandler.bookId +
         "/" +
         this.dwlHandler.page +
         "/" +
@@ -70,17 +113,18 @@ export class D4SDownlodaer {
         url: dwlUrl,
         method: "GET",
         headers: {
-          Cookie:
-            this.bookSettings.cookies[0] + " " + this.bookSettings.cookies[1] + " " + this.bookSettings.cookies[2],
+          Cookie: this.dwlHandler.cookies,
         },
       },
       async (err, res) => {
-        if (err) return D4SLog.error();
+        if (err) D4SLog.error();
         const html = new BeautifulDom(res.body);
-        if (
-          this.dwlHandler.page >= this.bookSettings.bookLastPage + 1 ||
-          (this.dwlHandler.page % 50 == 0 && !checked)
-        ) {
+        if (html.getElementsByTagName("svg").length <= 0) {
+          this.dwlHandler.isDoneDownloading = true;
+          this.dwlDone(this.dwlHandler.dwlSvgs);
+          return;
+        }
+        if (this.dwlHandler.page % 50 == 0 && !checked) {
           this.dwlDone(this.dwlHandler.dwlSvgs);
         } else {
           const svg: JSDOM = await this.dwlImages(html, this.dwlHandler.page);
@@ -100,24 +144,24 @@ export class D4SDownlodaer {
     for (var i = 0; i < imageNodes.length; i++) {
       const ogHref: string = imageNodes.item(i).getAttribute("xlink:href");
       let imageUrl: string;
-      if (this.bookSettings.bookIndex) {
+      if (this.dwlHandler.bookIndex) {
         imageUrl =
           "https://a.digi4school.at/ebook/" +
-          this.bookSettings.bookId +
+          this.dwlHandler.bookId +
           "/" +
-          this.bookSettings.bookIndex +
+          this.dwlHandler.bookIndex +
           "/" +
           page +
           "/" +
           ogHref;
       } else {
-        imageUrl = "https://a.digi4school.at/ebook/" + this.bookSettings.bookId + "/" + page + "/" + ogHref;
+        imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
       }
-      const imageFileSystemPath: string = "book/book_images/" + this.bookSettings.bookId + "/" + page + "/" + ogHref;
+      const imageFileSystemPath: string = "book/book_images/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
 
       D4SLog.downloadImage(ogHref);
-      fs.mkdirSync("book/book_images/" + this.bookSettings.bookId + "/" + page + "/img/", { recursive: true });
-      fs.mkdirSync("book/book_images/" + this.bookSettings.bookId + "/" + page + "/shade/", { recursive: true });
+      fs.mkdirSync("book/book_images/" + this.dwlHandler.bookId + "/" + page + "/img/", { recursive: true });
+      fs.mkdirSync("book/book_images/" + this.dwlHandler.bookId + "/" + page + "/shade/", { recursive: true });
       await this.dwlImage(imageUrl, imageFileSystemPath);
 
       imageNodes.item(i).setAttribute("xlink:href", imageFileSystemPath);
@@ -133,7 +177,7 @@ export class D4SDownlodaer {
       method: "GET",
       responseType: "stream",
       headers: {
-        Cookie: this.bookSettings.cookies[0] + " " + this.bookSettings.cookies[1] + " " + this.bookSettings.cookies[2],
+        Cookie: this.dwlHandler.cookies,
       },
     });
 
@@ -146,20 +190,21 @@ export class D4SDownlodaer {
   }
 
   dwlFsSetup() {
-    if (fs.existsSync("book/")) fs.rmdirSync("book", { recursive: true });
-    fs.mkdirSync("book");
-    fs.mkdirSync("book/book_images/" + this.bookSettings.bookId, { recursive: true });
-    fs.mkdirSync("book/book_pdfs/" + this.bookSettings.bookId, { recursive: true });
+    if (!fs.existsSync("book/")) fs.mkdirSync("book");
+    if (fs.existsSync("book/book_images/")) fs.rmdirSync("book/book_images/", { recursive: true });
+    if (fs.existsSync("book/book_pdfs/")) fs.rmdirSync("book/book_pdfs/", { recursive: true });
+    fs.mkdirSync("book/book_images/" + this.dwlHandler.bookId, { recursive: true });
+    fs.mkdirSync("book/book_pdfs/" + this.dwlHandler.bookId, { recursive: true });
   }
 
   dwlDone(svgs: JSDOM[]) {
     D4SLog.startGeneratingPages(this.dwlHandler.page - 49, this.dwlHandler.page - 1);
 
     const doc = new PDFDocument({
-      size: this.bookSettings.bookSize,
+      size: this.dwlHandler.bookSize,
     });
 
-    const pdfFilePath: string = `book/book_pdfs/${this.bookSettings.bookId}/${this.bookSettings.bookId}_${
+    const pdfFilePath: string = `book/book_pdfs/${this.dwlHandler.bookId}/${this.dwlHandler.bookId}_${
       this.dwlHandler.pdfMergeNames.length + 1
     }.pdf`;
     doc.pipe(fs.createWriteStream(pdfFilePath));
@@ -169,7 +214,7 @@ export class D4SDownlodaer {
       D4SLog.generatingPage(this.dwlHandler.page - 50 + (i + 1));
       let svg = svgs[i].window.document.getElementsByTagName("svg")[0];
 
-      svg.setAttribute("viewBox", `0 0 ${this.bookSettings.bookSize[0]} ${this.bookSettings.bookSize[1]}`);
+      svg.setAttribute("viewBox", `0 0 ${this.dwlHandler.bookSize[0]} ${this.dwlHandler.bookSize[1]}`);
       try {
         SVGtoPDF(doc, svg.outerHTML, 0, 0);
       } catch {}
@@ -178,7 +223,7 @@ export class D4SDownlodaer {
     }
     doc.end();
 
-    if (this.dwlHandler.page < this.bookSettings.bookLastPage) {
+    if (!this.dwlHandler.isDoneDownloading) {
       this.dwlHandler.dwlSvgs = [];
       this.dwlPages(true);
     } else {
@@ -189,7 +234,7 @@ export class D4SDownlodaer {
   mergePdfs() {
     D4SLog.mergingPdfs();
 
-    const pdfFileName: string = this.bookSettings.bookName ? this.bookSettings.bookName + ".pdf" : "book.pdf";
+    const pdfFileName: string = this.dwlHandler.bookName ? this.dwlHandler.bookName + ".pdf" : "book.pdf";
     const pdtFilePath: string = "book/" + pdfFileName;
 
     this.dwlHandler.pdfMergeNames.forEach((pdf) => {
@@ -211,8 +256,8 @@ export class D4SDownlodaer {
     D4SLog.cleaningDir("book/book_images");
     fs.rmdirSync("book/book_images", { recursive: true });
 
-    if (this.bookSettings.bookName) {
-      D4SLog.downloadDone(this.bookSettings.bookName + ".pdf");
+    if (this.dwlHandler.bookName) {
+      D4SLog.downloadDone(this.dwlHandler.bookName + ".pdf");
     } else {
       D4SLog.downloadDone("book.pdf");
     }
