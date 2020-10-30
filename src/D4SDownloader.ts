@@ -99,6 +99,7 @@ export class D4SDownlodaer {
           ".svg";
       }
     } else {
+      //dwlUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + this.dwlHandler.page + ".svg";
       dwlUrl =
         "https://a.digi4school.at/ebook/" +
         this.dwlHandler.bookId +
@@ -155,8 +156,10 @@ export class D4SDownlodaer {
           "/" +
           ogHref;
       } else {
+        //imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + ogHref;
         imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
       }
+      //const imageFileSystemPath: string = "book/book_images/" + this.dwlHandler.bookId + "/" + ogHref;
       const imageFileSystemPath: string = "book/book_images/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
 
       D4SLog.downloadImage(ogHref);
