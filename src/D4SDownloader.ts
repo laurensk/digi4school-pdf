@@ -12,6 +12,7 @@ import merge from "easy-pdf-merge";
 import { D4SBookProperties } from "./D4SBookProperties";
 import readline from "readline";
 import { D4SAuthHelper } from "./D4SAuthHelper";
+import { D4SVersionChecker } from "./D4SVersionChecker";
 
 export class D4SDownlodaer {
   bookSettings: D4SBookSettings;
@@ -63,15 +64,29 @@ export class D4SDownlodaer {
             this.dwlHandler.bookSize = bookSize;
             this.dwlHandler.bookName = bookName;
 
-            this.dwlFsSetup();
-            this.dwlPages(false);
+            let bookUrl: string = "";
+            if (this.dwlHandler.bookIndex) {
+              if (this.dwlHandler.bookIndex.length != 0) {
+                bookUrl =
+                  "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + this.dwlHandler.bookIndex + "/";
+              } else {
+                bookUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/";
+              }
+            } else {
+              bookUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/";
+            }
+
+            D4SVersionChecker.checkVersion(bookUrl, this.dwlHandler.cookies, (isNewVersion: boolean) => {
+              this.dwlHandler.isNewVersion = isNewVersion;
+
+              this.dwlFsSetup();
+              this.dwlPages(false);
+            });
           }
         );
       }
     );
   }
-
-  setCookies(cokkies: string[]) {}
 
   dwlPages(checked: boolean) {
     D4SLog.downloadPage(this.dwlHandler.page);

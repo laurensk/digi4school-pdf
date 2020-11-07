@@ -12,4 +12,6 @@ export class D4SDwlHandler {
   dwlSvgs: JSDOM[] = [];
   page: number = 1;
   pdfMergeNames: string[] = [];
+
+  isNewVersion: boolean = false;
 }
