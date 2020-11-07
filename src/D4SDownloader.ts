@@ -91,18 +91,47 @@ export class D4SDownlodaer {
   dwlPages(checked: boolean) {
     D4SLog.downloadPage(this.dwlHandler.page);
     let dwlUrl: string;
-    if (this.dwlHandler.bookIndex) {
-      if (this.dwlHandler.bookIndex.length != 0) {
-        dwlUrl =
-          "https://a.digi4school.at/ebook/" +
-          this.dwlHandler.bookId +
-          "/" +
-          this.dwlHandler.bookIndex +
-          "/" +
-          this.dwlHandler.page +
-          "/" +
-          this.dwlHandler.page +
-          ".svg";
+
+    if (this.dwlHandler.isNewVersion) {
+      if (this.dwlHandler.bookIndex) {
+        if (this.dwlHandler.bookIndex.length != 0) {
+          dwlUrl =
+            "https://a.digi4school.at/ebook/" +
+            this.dwlHandler.bookId +
+            "/" +
+            this.dwlHandler.bookIndex +
+            "/" +
+            this.dwlHandler.page +
+            ".svg";
+        } else {
+          dwlUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + this.dwlHandler.page + ".svg";
+        }
+      } else {
+        dwlUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + this.dwlHandler.page + ".svg";
+      }
+    } else {
+      if (this.dwlHandler.bookIndex) {
+        if (this.dwlHandler.bookIndex.length != 0) {
+          dwlUrl =
+            "https://a.digi4school.at/ebook/" +
+            this.dwlHandler.bookId +
+            "/" +
+            this.dwlHandler.bookIndex +
+            "/" +
+            this.dwlHandler.page +
+            "/" +
+            this.dwlHandler.page +
+            ".svg";
+        } else {
+          dwlUrl =
+            "https://a.digi4school.at/ebook/" +
+            this.dwlHandler.bookId +
+            "/" +
+            this.dwlHandler.page +
+            "/" +
+            this.dwlHandler.page +
+            ".svg";
+        }
       } else {
         dwlUrl =
           "https://a.digi4school.at/ebook/" +
@@ -113,17 +142,8 @@ export class D4SDownlodaer {
           this.dwlHandler.page +
           ".svg";
       }
-    } else {
-      //dwlUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + this.dwlHandler.page + ".svg";
-      dwlUrl =
-        "https://a.digi4school.at/ebook/" +
-        this.dwlHandler.bookId +
-        "/" +
-        this.dwlHandler.page +
-        "/" +
-        this.dwlHandler.page +
-        ".svg";
     }
+
     request(
       {
         url: dwlUrl,
@@ -160,22 +180,35 @@ export class D4SDownlodaer {
     for (var i = 0; i < imageNodes.length; i++) {
       const ogHref: string = imageNodes.item(i).getAttribute("xlink:href");
       let imageUrl: string;
-      if (this.dwlHandler.bookIndex) {
-        imageUrl =
-          "https://a.digi4school.at/ebook/" +
-          this.dwlHandler.bookId +
-          "/" +
-          this.dwlHandler.bookIndex +
-          "/" +
-          page +
-          "/" +
-          ogHref;
+      if (this.dwlHandler.isNewVersion) {
+        if (this.dwlHandler.bookIndex) {
+          imageUrl =
+            "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + this.dwlHandler.bookIndex + "/" + ogHref;
+        } else {
+          imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + ogHref;
+        }
       } else {
-        //imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + ogHref;
-        imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
+        if (this.dwlHandler.bookIndex) {
+          imageUrl =
+            "https://a.digi4school.at/ebook/" +
+            this.dwlHandler.bookId +
+            "/" +
+            this.dwlHandler.bookIndex +
+            "/" +
+            page +
+            "/" +
+            ogHref;
+        } else {
+          imageUrl = "https://a.digi4school.at/ebook/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
+        }
       }
-      //const imageFileSystemPath: string = "book/book_images/" + this.dwlHandler.bookId + "/" + ogHref;
-      const imageFileSystemPath: string = "book/book_images/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
+
+      let imageFileSystemPath: string = "";
+      if (this.dwlHandler.isNewVersion) {
+        imageFileSystemPath = "book/book_images/" + this.dwlHandler.bookId + "/" + ogHref;
+      } else {
+        imageFileSystemPath = "book/book_images/" + this.dwlHandler.bookId + "/" + page + "/" + ogHref;
+      }
 
       D4SLog.downloadImage(ogHref);
       fs.mkdirSync("book/book_images/" + this.dwlHandler.bookId + "/" + page + "/img/", { recursive: true });
