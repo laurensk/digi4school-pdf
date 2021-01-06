@@ -17,7 +17,7 @@
     "@types/jsdom": "^16.2.4",
     "@types/pdfkit": "^0.10.6",
     "@types/request": "^2.48.5",
-    "axios": "^0.20.0",
+    "axios": ">=0.21.1",
     "beautiful-dom": "^1.0.8",
     "easy-pdf-merge": "^0.2.5",
     "install": "^0.13.0",
